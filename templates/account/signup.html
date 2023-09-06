@@ -1,0 +1,63 @@
+{%extends "items/base.html"%} {%load crispy_forms_tags%}
+
+
+
+
+{% block content %}
+<div
+class="container-fluid"
+style="padding: 3cm 0; background-color: rgba(255, 179, 87);"
+>
+
+
+
+
+    <div class="row justify-content-center">
+      <div class="col-10 col-lg-5">
+        <form method="post" class="shadow p-3 bg-light">
+          <h5 class="display-5 text-uppercase p-3 mb-2 bg-gradient-light text-dark">
+            Sign In TO Ecommerce
+          </h5>
+          <hr />
+          <br />
+          <input type="hidden" value=>
+          <input type="hidden" name="csrfmiddlewaretoken" value="S8mKjkIBZe9mR38OQxJZOJaiXOCuTZYvd2dwWW5BlnbiWpnERuFxiM3FpwvD1BBc"> 
+
+<div id="div_id_email" class="form-group"> <label for="id_email" class=" requiredField">
+                Email<span class="asteriskField">*</span> </label> <div class=""> <input type="email" name="email" maxlength="50" class="emailinput form-control" required id="id_email"> </div> </div> <div id="div_id_phone" class="form-group"> <label for="id_phone" class=" requiredField">
+                Phone<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="phone" maxlength="50" class="textinput textInput form-control" required id="id_phone"> </div> </div> <div id="div_id_dob" class="form-group"> <label for="id_dob" class=" requiredField">
+                DOB <span class="asteriskField">*</span> </label> <div class=""> <input type="date" name="dob" class="dateinput form-control" required id="id_dob"> <small id="hint_id_dob" class="form-text text-muted">You will get some discount coupouns on your birthday</small> </div> </div> <div id="div_id_password1" class="form-group"> <label for="id_password1" class=" requiredField">
+                Password<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password1" class="textinput textInput form-control" required id="id_password1"> </div> </div> <div id="div_id_password2" class="form-group"> <label for="id_password2" class=" requiredField">
+                Password confirmation<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password2" class="textinput textInput form-control" required id="id_password2"> </div> </div> <div class="form-group"> <div id="div_id_s2nl" class="form-check"> <input type="checkbox" name="s2nl" class="checkboxinput form-check-input" id="id_s2nl" checked> <label for="id_s2nl" class="form-check-label">
+                    Subscribe to our newsletter
+                </label> </div> </div>
+
+          <button type="submit" class="btn btn-dark my-3">Sign In</button>
+          <br />
+          
+          
+          <small class="text-muted"
+            >No account? Lets Sign up.
+            <a href="/user/signup/">Click me</a>
+          </small>
+          <br>
+          <hr>
+          <a href="javascript:allauth.facebook.login%28%27%27%2C%20%27authenticate%27%2C%20%27login%27%2C%20%27%27%29" class="btn btn-block btn-social btn-facebook" style="background-color:#3b5998;text-align:center; color:white">
+            <span class="fa fa-facebook"></span>
+            
+            Sign In using Facebook
+        
+           </a>           
+            </a>
+        </form>
+
+        <br />
+        
+        
+    
+      </div>
+     
+    </div>
+  </div>
+  {% endblock %}
+</div>

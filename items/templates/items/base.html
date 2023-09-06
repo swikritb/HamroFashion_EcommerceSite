@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+{%load static%} {%load make_range%}
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <title>
+      {%firstof title "Hamro Fashion" %}
+    </title>
+    <link rel="icon" href="{%static 'items/favicon.ico'%}">
+	<link
+      rel="stylesheet"
+      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.1.0/fetch.min.js"
+      integrity="sha512-++GOw3P+CoKtOL9WLD69ivVM+szM4IDAB9lxgsnR+t1epc5bu3+ghkXyaYMp9ctqjPvG7niSTL3Hna5cVgOnUA=="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="{%static 'items/css/base.css'%}?version=1.02" />
+    {%block style%} {%endblock%}
+  </head>
+  <body>
+    <!--Nav bar-->
+
+    <header id="header">
+      <div id="msg">
+        {%for message in messages%}
+
+        <div style="color: white; font-size: 20px;">
+          {{message}}
+        </div>
+        {%endfor%}
+      </div>
+      <span id="change">
+        <i
+          class="fa fa-bars"
+          onclick="document.getElementsByClassName('profile-sidebar')[0].classList.add('open')"
+        >
+        </i>
+        
+        <a href="/">
+          <h1 id="logo">Ecommerce</h1>
+        </a>
+        <svg
+          width="20"
+          height="20"
+          id="svgsearch"
+          viewBox="0 0 17 18"
+          class=""
+          style="margin: 0 0.2cm;"
+          onclick=""
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g fill="#fff" fill-rule="evenodd">
+            <path
+              class="_2BhAHa"
+              d="m11.618 9.897l4.225 4.212c.092.092.101.232.02.313l-1.465 1.46c-.081.081-.221.072-.314-.02l-4.216-4.203"
+            ></path>
+            <path
+              class="_2BhAHa"
+              d="m6.486 10.901c-2.42 0-4.381-1.956-4.381-4.368 0-2.413 1.961-4.369 4.381-4.369 2.42 0 4.381 1.956 4.381 4.369 0 2.413-1.961 4.368-4.381 4.368m0-10.835c-3.582 0-6.486 2.895-6.486 6.467 0 3.572 2.904 6.467 6.486 6.467 3.582 0 6.486-2.895 6.486-6.467 0-3.572-2.904-6.467-6.486-6.467"
+            ></path>
+          </g>
+        </svg>
+        {%if request.user.is_authenticated%}
+        <a
+          style="
+            color: white;
+            background-color: inherit;
+            outline: 0;
+            border: 0;
+          "
+          href="/cart/"
+          
+        >
+          <i
+            class="fa fa-shopping-cart"
+            style="font-size: 25px;"
+            aria-hidden="true"
+          ></i>
+          <sup style="color: orange; font-size: 18px;margin:0;" id="cartcount-mobile">
+            {{request.user.cart|get_quantity}}
+          </sup>
+        </button>
+        {%endif%}
+
+        <i id="bars" class="fa fa-bars"></i>
+      </span>
+      <div class="information">
+        <hr />
+        <a href="tel:+97798xxxxxxx">
+          <i class="fa fa-phone" aria-hidden="true"></i>
+          +97798xxxxxxx</a
+        >
+        <a href="mailto:mail@example.com">
+          <i class="fa fa-envelope-open" aria-hidden="true"></i>
+          mail@example.com
+        </a>
+        <a href="#">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          Pepsicola, Kathmandu
+        </a>
+      </div>
+      <nav>
+        <div>
+          &nbsp;
+          <a style="display: inline-block;" href="/">
+            <h1>Hamro Fashion</h1>
+          </a>
+        </div>
+        <ul>
+          
+        </ul>
+        <ul>
+          
+          {%if user.is_authenticated%}
+          <li>
+            <button
+            onclick="showcart()"
+            
+            style="
+            color: white;
+            background-color: inherit;
+            outline: 0;
+            border: 0;
+          " >
+              <i
+                class="fa fa-shopping-cart pc"
+                style="position: relative; font-size: 25px;"
+                aria-hidden="true"
+              ></i> </a
+            ><sup style="color: orange; font-size: 25px;" id="cartcount"
+              >{{request.user.cart|get_quantity}}</sup
+            >
+          </li>
+
+          <li><a href="{%url 'logout'%}">Log Out</a></li>
+          {%else%}
+          <li><a href="{%url 'login'%}">Log In</a></li>
+          <li><a href="{%url 'signup'%}">Sign In</a></li>
+          {%endif%}
+        </ul>
+      </nav>
+    </header>
+    <div
+      class="profile-sidebar"
+      onclick="document.getElementsByClassName('profile-sidebar')[0].classList.remove('open');"
+    >
+      <div onclick="(arguments[0] ? arguments[0].stopPropagation() : false);">
+        <button
+          style="float: right;"
+          class="btn btn-light my-3"
+          onclick="document.getElementsByClassName('profile-sidebar')[0].classList.remove('open');"
+        >
+          x
+        </button>
+
+        <h4 class="display-4 text-light my-3">
+          Hello ,
+          <br />{%if request.user.is_authenticated%} {{request.user}} {%else%}
+          <br />
+          <a href="{%url 'login'%}" class="btn btn-light">Log In</a>&nbsp;&nbsp;
+          <a href="{%url 'signup'%}" class="btn btn-light">Sign In</a>
+          {%endif%}
+        </h4>
+        <hr width="100%" color="white" />
+        {%if request.user.is_authenticated%}
+        <ul>
+          <li><a href="{%url 'cart'%}">Cart</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Order</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+        <hr width="100%" color="white" />
+        {%endif%}
+
+        <h5 class="text-light my-3">
+          Browse by Category
+        </h5>
+        <ul class="mx-3" id="categories">
+          
+        </ul>
+      </div>
+    </div>
+    <div
+      class="cart-content"
+      onclick="document.getElementById('cart-content').classList.remove('open')"
+      id="cart-content"
+    >
+      <div id="main-cart-body" onclick="(arguments[0] ? arguments[0].stopPropagation() : false);">
+        <div
+          class="d-flex justify-content-between mt-4 mb-1"
+          onclick="(arguments[0] ? arguments[0].stopPropagation() : false);"
+        >
+          <h5>Your shopping Cart</h5>
+          <button
+            class="btn btn-light"
+            onclick="document.getElementById('cart-content').classList.remove('open')"
+          >
+            x
+          </button>
+        </div>
+
+        <hr color="white" class="mb-4 mt-1" width="100%" />
+        <h5 id="write-total">
+          Cart is empty
+        </h5>
+        
+        {%csrf_token%}
+        <!---
+        
+          AFDSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+        
+        -->
+        
+
+        <table id="cart" class="table text-white table-borderless">
+          <tbody></tbody>
+        </table>
+        <div class="d-flex justify-content-around">
+          <a class="btn btn-light" href="{%url 'cart'%}"> View Cart </a>
+          <a
+            href="{%url 'checkout'%}?COUPON_CODE={{request.GET.COUPON_CODE}}"
+            class="btn btn-success mx-1"
+            >Checkout</a
+          >
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="bg-light text-dark" style="margin:50px 0">
+      {%block content%} {%endblock%}
+    </div>
+    <br />
+    <br />
+    <br />
+    <footer>
+      
+        <ul>
+          <li><a href="#">Office</a></li>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+        <h1>&#169; Hamro Fashion</h1>
+        <ul>
+          <li>
+            <a href=""
+              ><i class="fa fa-facebook-square" aria-hidden="true"></i
+            ></a>
+          </li>
+          <li>
+            <a href=""><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+          </li>
+          <li>
+            <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+          </li>
+        </ul>
+      
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
+      integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="{%static 'items/js/navbar.js'%}?version=1.02"
+      type="text/javascript"
+    ></script>
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
+
+    {%block script%} {%endblock%}
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    
+  </body>
+</html>

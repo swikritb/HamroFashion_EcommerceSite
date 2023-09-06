@@ -1,0 +1,10 @@
+{%extends "items/base.html"%} {%load static%} {%load crispy_forms_tags%} {#just
+to fake my profile#} {%block style%}
+<link rel="stylesheet" href="{%static 'users/profile.css'%}?version=1" />
+{%endblock%} {%block content%}
+<input type="hidden" value="{{focus}}" name="get-focus-js" />
+<script
+  type="text/javascript"
+  src="{%static 'users/handletab.js'%}?version=1"
+></script>
+{%endblock%}

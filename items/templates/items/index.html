@@ -1,0 +1,47 @@
+{%extends "items/base.html"%}
+
+{%load static%}
+
+{%block style%}
+<link rel="stylesheet" type="text/css" href="{%static 'items/css/search.css'%}?version=1.01">
+<link rel="stylesheet" type="text/css" href="{%static 'items/css/index.css'%}?version=1.01">
+<link rel="stylesheet" type="text/css" href="{%static 'items/css/slide.css'%}?version=1.01">
+{%endblock%}
+
+{%block content%}
+<!--SLIDER FORM HERE-->
+    <div class="slide-container">
+      <div class="ok">
+          {%for slide in slides%}
+            {%if forloop.first%}
+              <div onclick="{%if slide.link%}window.location={{slide.link}}{%endif%}" class="slide active" style="background-image: url({{slide.photo.url}});">
+              </div>
+            {%else%}
+              <div onclick="{%if slide.link%}window.location={{slide.link}}{%endif%}" class="slide" style="background-image: url({{slide.photo.url}});">
+              </div>
+            {%endif%}
+          {%endfor%}
+      </div>
+      <!--Controls-->
+      <div class="controls">
+        <div class="prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></i></div>
+        <div class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></i></div>
+      </div>
+      <!--indicators-->
+      <div class="indicators"></div>
+      
+    </div>
+    <!--Main Content-->
+    <div class="item-holder">
+      {%include "items/itemview.html"%} 
+  {%endblock%}
+{%block script%}
+
+<!-- jQuery !-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="{%static 'items/js/reveal.js'%}?version=1"></script>
+<script type="text/javascript" src="{%static 'items/js/slide.js'%}?version=1.01"></script>
+{%endblock%}

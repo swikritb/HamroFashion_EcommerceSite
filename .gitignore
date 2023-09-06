@@ -1,0 +1,49 @@
+# Django project files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+
+# Static files
+staticfiles/
+
+# Media files
+media/
+
+# Secret keys
+*.secret_key
+
+# Development files
+local_settings.py
+db.sqlite3
+
+# IDE files (specific to your IDE)
+.vscode/
+.idea/
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Environment-related files
+.env
+.env.local
+.env.dev
+.env.prod
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+venv/
+env/
+
+# Ignore pipenv and poetry lock files if you are using them
+Pipfile
+Pipfile.lock
+poetry.lock
+
