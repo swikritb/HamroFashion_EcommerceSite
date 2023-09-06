@@ -1,0 +1,81 @@
+{%load make_range%}
+{%load static%}
+
+<div class="item-container">
+    {%for item in items.object_list%}
+      <div class="item" style="box-shadow: 4px 4px 20px rgba(0,0,0,0.2);">
+      <a href="{{item.get_absolute_url}}" title="Click to see more on {{item.name}}">
+        <img src="{{item.pictures.first.image.url}}" loading="lazy" style="display: block;" class="item-image">
+      
+      <div class="text">
+        <p class="title">
+          {{item.name}}
+        </p>
+        <p class="price">
+          {%if item.discount%}
+            
+            
+            <span style="text-decoration: line-through; color:red ;font-size:10px">
+              NRS {{item.price}}
+            </span>
+            <strong style="color:orange;">NRS {{item.real_time_price}}</strong>
+            
+            
+          {%else%}
+          <span style="color:orange;">
+            <strong>
+              NRS {{item.price}}
+            </strong>
+          </span>
+          
+          
+          {%endif%}
+        </p>
+      
+        
+        </div>
+      </a>
+      </div>
+      {%empty%}
+      <h1>NO ITEMS HERE</h1>
+      {%endfor%}
+    </div>
+    
+  </div>
+
+  {% comment %} <div class="col-12 text-center">
+    <div>
+      <h4>
+      Page {{items.number}} of {{p.num_pages}}
+      </h4>
+      <p>
+      {%if items.has_previous%}
+      <a class="btn btn-dark p-2" href="?page={{items.previous_page_number}}">
+        <
+      </a>
+      {%else%}
+      <button class="btn btn-dark p-2 disabled">
+        <
+      </button>
+      {%endif%}
+      &nbsp;&nbsp;
+      {%if items.has_next%}
+      <a class="btn btn-dark p-2" href="?page={{items.next_page_number}}">
+        >
+      </a>
+      {%else%}
+      <button class="btn btn-dark p-2 disabled">
+        >
+      </button>
+      
+      {%endif%}
+      </p>
+    </div>
+  </div> {% endcomment %}
+</div>
+{%csrf_token%}
+<script>
+    const user="{{request.user}}";
+    let csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const addToCart = "{%url 'add_to_cart'%}";
+</script>

@@ -1,0 +1,121 @@
+{%extends 'items/base.html'%} 
+{%load make_range%}
+{%block style%} {%load static%}
+<link rel="stylesheet" href="{%static 'items/css/item-detail.css'%}?version=1.01" />
+{%endblock%} {%block content%}
+<div id="fullscreendisplay">
+  <!--JS MAGIC WILL HAPPEN HERE-->
+</div>
+
+<div class="item-holder">
+  <div class="row">
+    <div class="col-lg-1 col-md-1"></div>
+    <div class="col-lg-5 col-md-4 col-12 col-sm-5 justify-content-center">
+      <!--item.pictures.first.image.url-->
+      <img src="{{object.pictures.first.image.url}}" loading="lazy" id="dp"/>
+      <hr>
+      <div class="mt-1">
+        <span class="mt-1">
+          {%for pic in object.pictures.all%}
+            {%if forloop.counter == 1%}
+              <img style="border:1px solid orange" src="{{pic.image.url}}" class="img-small mx-1" />
+            {%else%}
+              <img src="{{pic.image.url}}" loading="lazy" class="img-small  m-1" />
+            {%endif%}
+          {%endfor%}
+        </span>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1"></div>
+    <div class="col-lg-4 col-md-5 col-12">
+      <h4 class="display-4">{{object.name}}</h4>
+      <div style="display: inline-block;">
+        
+      </div>
+      <br><hr>
+      <p class="desp">{{object.desp}}</p>
+      {%if object.discount%}
+          <h4 class="display-4" style="color:black;">
+            NRS {{object.real_time_price}} /- 
+          </h4>
+          <span style="color:white;padding:5px; border-radius:4px; background-color:rgb(255, 0, 0);font-size:15px">
+          <span style="text-decoration: line-through; ">
+            NRS {{object.price}}
+          </span>
+          &nbsp; > &nbsp;
+          <span>
+            {{object.discount| fix_percent}}
+            % off
+          </span>
+        </span>
+        
+        {%else%}
+        <h4 class="display-4">
+          NRS {{object.price}} /-
+        </h4>
+      {%endif%}
+      <br>
+      <br>
+      <span class="counter">
+
+      <form id="addtocart">
+        
+
+        <span class="w-100 text-center">
+          Quantity :  
+          <button class="btn btn-dark" type="button" onclick="document.getElementById('quantity').innerHTML > 1 ? document.getElementById('quantity').innerHTML-- :null">
+            <i class="fa fa-minus" aria-hidden="true"> </i>
+          </button>
+          
+          <span class="h4 mx-2" id="quantity" data-prodId="{{object.id}}">1</span>
+          <button class="btn btn-dark" type="button" onclick="document.getElementById('quantity').innerHTML++">
+            <i class="fa fa-plus" aria-hidden="true" ></i>
+          </button>
+        </span>
+        <p>
+          <input type="submit" value="Add to Cart" style="width:5cm" class="btn btn-outline-dark my-2">
+        </p>
+      </form>
+      
+    </div>
+    <div class="col-lg-1 col-md-1"></div>
+  </div>
+</div>
+  
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-10 justify-content-center my-3 py-3">
+      <hr>
+    
+      <div class="d-flex justify-content-around">
+        <b>
+          Category : {{object.category.name}}
+        </b>
+        <b>
+          Status : {{object.status}}
+        </b>    
+      </div>
+      <hr>
+      
+    </div>
+  </div>
+
+  <div style="margin:2cm"></div>
+ 
+ 
+</div>
+
+{%endblock%}
+
+{%block script%}
+<script>
+  
+  const user="{{request.user}}";
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const addToCartUrl = "{%url 'add_to_cart'%}";
+</script>
+<script  type="text/javascript" src="{%static 'items/js/handlereply.js'%}?version=1.04"></script>
+<script  type="text/javascript" src="{%static 'cart/js/addtocart.js'%}?version=1.04"></script>
+<script  type="text/javascript" src="{%static 'items/js/addtofav.js'%}?version=1.04"></script>
+<script  type="text/javascript" src="{%static 'items/js/changeimg.js'%}?version=1.04"></script>
+<script  type="text/javascript" src="{%static 'items/js/reviewform.js'%}?version=1.04"></script>
+{%endblock%}

@@ -1,0 +1,56 @@
+{%extends "items/base.html"%} {%load crispy_forms_tags%}
+
+
+
+
+{% block content %}
+<div
+class="container-fluid"
+style="padding: 3cm 0; background-color: rgba(255, 179, 87);"
+>
+
+
+
+
+    <div class="row justify-content-center">
+      <div class="col-10 col-lg-5">
+        <form method="post" action="{%url 'login'%}" class="shadow p-3 bg-light">
+          <h5 class="display-5 text-uppercase p-3 mb-2 bg-gradient-light text-dark">
+            Log In TO Ecommerce
+          </h5>
+          <hr />
+          <br />
+          <input type="hidden" value=>
+          <input type="hidden" name="csrfmiddlewaretoken" value="ld2fOPjCj95Xh6bmz0IdN3Uo7TizATrdkRnnQCQnm5SMr3d6nYwbZW1xotc1Ldpa"> 
+
+<div id="div_id_email" class="form-group"> <label for="id_email" class=" requiredField">
+                Email<span class="asteriskField">*</span> </label> <div class=""> <input type="email" name="email" placeholder="Enter email address" class="emailinput form-control" required id="id_email"> </div> </div> <div id="div_id_password" class="form-group"> <label for="id_password" class=" requiredField">
+                Password<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password" placeholder="Enter password" minlength="8" class="textinput textInput form-control" required id="id_password"> </div> </div>
+
+          <button type="submit" class="btn btn-dark my-3">Log In</button>
+          <br />
+          
+          
+          <small class="text-muted"
+            >No account? Lets Sign up.
+            <a href="/user/signup/">Click me</a>
+          </small>
+          <br>
+          <hr>
+          <a href="javascript:allauth.facebook.login%28%27%27%2C%20%27authenticate%27%2C%20%27login%27%2C%20%27%27%29" class="btn btn-block btn-social btn-facebook" style="background-color:#3b5998;text-align:center; color:white">
+            <span class="fa fa-facebook"></span>
+            
+            Sign In using Facebook
+        
+           </a>           
+            </a>
+        </form>
+
+        <br />
+     
+      </div>
+     
+    </div>
+  </div>
+  {% endblock %}
+</div>

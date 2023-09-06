@@ -1,0 +1,103 @@
+{%extends "items/base.html"%} 
+{%load static%}
+{%load crispy_forms_tags%}
+{%block content%}
+
+<div class="container" style="padding: 3cm 10px;">  
+  <div class="row">
+    {%if discount_float%}
+      <input type="hidden" name="discount-hidden" value="{{discount_float}}">
+    {%else%}
+      <input type="hidden" name="discount-hidden" value="0.0">
+    {%endif%}
+    <div class="col-lg-7 justify-content-center col-12">
+      {%if request.user.cart.items.first%}
+      <h5 class="my-5">Your shopping Cart</h5>
+      {%csrf_token%}
+      <table class="table table-borderless">
+        <tbody>
+          {%for item in request.user.cart.items.all%}
+          <tr>
+            <data data-cid="{{item.id}}" class="data__tag"></data>
+            <td>
+              <div class="d-flex">
+                <a href="{{item.item.get_absolute_url}}">
+                <img
+                  height="100"
+                  width="100"
+                  src="{{item.item.pictures.first.image.url}}"
+                  class="float-l"
+                />
+                <div class="mx-2">
+                  <h6 style="text-decoration: none; color:black">{{item.item.name}}</h6>
+                </a>
+                  NRS {{item.item.real_time_price}} /- <br />
+                  Qty: 
+                  <i onclick="document.getElementById('quantity-{{item.id}}').innerHTML > 0? document.getElementById('quantity-{{item.id}}').innerHTML-- :null" 
+                    class="fa fa-chevron-left" style="cursor: pointer;" aria-hidden="true"> </i>
+                  <span class="mx-2 quantity" id="quantity-{{item.id}}">{{item.quantity}}</span>
+                  <i class="fa fa-chevron-right" style="cursor: pointer;" onclick="document.getElementById('quantity-{{item.id}}').innerHTML++" aria-hidden="true" ></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-right">
+              <i class="fa fa-remove" data-cid="{{item.id}}" data-rowid="{{forloop.counter0}}"></i><br>              
+              NRS <span class="pricing">{{item.price}}</span>
+            </p>
+            </td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+      <a href="/" class="btn btn-outline-dark py-2 px-1 m-1">Continue Shopping</a>
+      <button class="btn btn-outline-dark py-2 px-1 m-1" id="updateCart">Update Cart</button>
+      <a href="{%url 'clearcart'%}" class="btn btn-danger py-2 px-1 m-1">Remove All</a><br>
+      
+    </div>
+    <div class="col-lg-4 my-4 col-10">
+      <div style="margin-top:1cm;">
+        <hr>
+        <table class="table table-borderless">
+          <tbody>
+            <tr scope="row">
+              <th> Grand Total </th>
+            </tr>
+          <td>Total Price </td>
+          <td id="totalprice"> NRS {{total_price}}</td>
+        
+        </tr>
+      </tbody>
+    </table>
+    
+    <a href="{%url 'checkout'%}" class="btn btn-dark py-2 px-1 m-1" style="width:200px;text-transform: uppercase;">Checkout</a> 
+    
+    <hr>
+
+    
+    
+  </div>
+      
+    </div>
+    {%else%}
+    <h3>Your Cart is empty</h3>
+      <div class="container py-5">
+        Please Add some Items
+      </div>
+    </div>
+    {%endif%}
+  </div>
+</div>
+
+{%endblock%}
+
+{%block script%}
+<script>
+  const removeFromCartUrl = "{%url 'removefromcart'%}";
+  const updateCartUrl     = "{%url 'updatecart'%}";
+</script>
+
+<script type="text/javascript" src="{%static 'cart/js/updatecart.js'%}?version=1"></script>
+<script type="text/javascript" src="{%static 'cart/js/removefromcart.js'%}?version=1.0.1"></script>
+{%endblock%}

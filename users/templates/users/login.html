@@ -1,0 +1,39 @@
+{%extends "items/base.html"%} {%load crispy_forms_tags%}
+
+{% block content %}
+  <div
+    class="container-fluid"
+    style="padding: 3cm 0; background-color: rgba(255, 179, 87);"
+  >
+    <div class="row justify-content-center">
+      <div class="col-10 col-lg-5">
+        <form method="post" class="shadow p-3 bg-light">
+          <h5 class="display-5 text-uppercase p-3 mb-2 bg-gradient-light text-dark">
+            {{val}} TO Ecommerce
+          </h5>
+          <hr />
+          <br />
+          <input type="hidden" value={{request.GET.next}}>
+          {% csrf_token %} {{ lform|crispy }}
+          <input type="hidden" name="next" value="{{request.GET.next}}">
+          <button type="submit" class="btn btn-dark my-3">{{val}}</button>
+          
+          <br />
+          
+          {%if val is not login%}
+          <small class="text-muted"
+            >No account? Lets Sign up.
+            <a href="{%url 'signup'%}">Click me</a>
+          </small>
+          {%else%}
+          
+          {%endif%}<br>
+          <hr>
+          </a>
+        </form>
+        <br />
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

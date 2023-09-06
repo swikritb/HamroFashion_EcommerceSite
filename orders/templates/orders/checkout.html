@@ -1,0 +1,185 @@
+{%extends "items/base.html"%}
+{% load crispy_forms_tags %}
+{%block content%}
+<div class="container" style="padding-top:3cm;">
+    <div class="row">
+        <div class="col-12 col-lg-7 col-md-7">
+            
+            <div class="alert alert-warning" role="alert">
+                <h5 class="heading-5">Attention Here</h5>
+                Someone from hamro fashion will contact you soon
+            </div>
+            <h5>Billing Profile Form</h5>
+            {%if info%}
+                <small class="text-info mx-5"> - {{info}}</small>
+            {%endif%}
+            <form action="#" class="py-2" id="checkoutForm" method="POST" enctype="multipart/form-data">
+                {{checkout_form|crispy}} {%csrf_token%}
+                <input type="hidden" name="COUPON_CODE" value="{{request.GET.COUPON_CODE }}" />
+                <input type="hidden" name="KHALTI_TRANSACTION_CODE" id="KHALTI_TRANSACTION_CODE" />
+                <input type="submit" value="Place Order" class="btn btn-outline-dark" />
+            </form>
+        </div>
+        <div class="col-12 col-lg-5 col-md-5">
+        <h5 class="my-5">Your shopping Cart</h5>
+      
+        <table class="table table-borderless">
+        <tbody>
+            {%for item in request.user.cart.items.all%}
+                <tr>
+                    <td>
+                        <div class="d-flex">
+                            <a href="{{item.item.get_absolute_url}}">
+                            <img
+                              height="100"
+                              width="100"
+                              src="{{item.item.pictures.first.image.url}}"
+                              class="float-l"
+                            />
+                            <div class="mx-2">
+                              <h6 style="text-decoration: none; color:black">{{item.item.name}}</h6>
+                            </a>
+                            NRS {{item.item.price}} /- <br />
+                            {%if item.detail%}
+                              {{item.detail}} <br />
+                            {%endif%}
+                            Qty: <span class="mx-2 quantity" id="quantity-{{item.id}}">{{item.quantity}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="text-right">
+                        <br>
+                        NRS <span class="pricing">{{item.price}}</span>
+                        </p>
+                        </td>
+                </tr>
+            {%endfor%}
+        </tbody>
+      </table>
+      <span class="mx-3">
+        <a href="{%url 'cart'%}" class="btn btn-outline-dark">View Cart</a>
+      </span>
+      <table class="table table-borderless">
+        <tbody>
+          <tr scope="row">
+            <th>Grand Total </th>
+          </tr>
+          
+      
+      <tr scope="row">
+          <td>
+            Total Price         
+          </td>
+          <td class="bg-dark text-light">
+            NRS {{total_price}}
+          </td>
+        </tr>
+      </tr>
+
+    </tbody>
+  </table>
+      
+    </div>
+    </div>
+</div>
+<br>
+{%endblock%}
+
+{%block style%}
+<style>
+    form input[name="phone_no"]{
+        background: url("https://images.vexels.com/media/users/3/157515/isolated/preview/42ceb89fe8b208937c1bba3d974ecda6-phone-call-symbol-icon-by-vexels.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        padding: 10px 1.5cm;
+        background-position: 5px;
+    }
+    form input[name="address"]{
+        background: url("https://i.pinimg.com/originals/f0/a4/17/f0a4170e43fae6a84ff990b6df105199.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        padding: 10px 1.5cm;
+        background-position: 5px;
+    }
+    form input[name="email"]{
+        background: url("https://cdn.iconscout.com/icon/free/png-256/email-2155119-1814289.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        padding: 10px 1.5cm;
+        background-position: 5px;
+    }
+    
+</style>
+<script accesskey="khaltiBlockCode">
+  
+  // data will be passed by django template
+  const KHALTI_PUBLIC_KEY = `{{KHALTI_PUBLIC_KEY}}`;
+  const totalPrice = Number(`{{total_price}}`);
+  const requestToUrl = new URL("https://a.khalti.com/api/v2/epayment/initiate/");
+  const currentUrl = new URL(document.location.href);
+
+  function handleFormSubmission(e){
+    
+    e.preventDefault();
+    const phoneNumber = document.querySelector(`input[name='phone_no']`).value;
+    const address = document.querySelector(`input[name='address']`).value;
+    const email = document.querySelector(`input[name='email']`).value;
+    initiateKhaltiPayment(totalPrice);
+  
+  }
+  
+
+
+  function initiateKhaltiPayment(amount){
+    Number = document.querySelector(`input[name='phone_no']`).value;
+    const address = document.querySelector(`input[name='address']`).value;
+    const email = document.querySelector(`input[name='email']`).value;
+
+    const data = {
+      return_url: `${document.location.href}`,
+      website_url: currentUrl.href,
+      purchase_order_id: `ORDER-FOR-{{request.user.id}}`,
+      purchase_order_name: `ORDER-FOR-{{request.user.email}}`,
+      amount: amount*100,
+      modes: ["KHALTI"],
+      purchase_order_name: "test",
+      customer_info: {
+        name: `{{request.user.email}}`,
+        email: "test@khalti.com",
+        phone: "9800000003"
+      }
+    };
+    
+    
+
+    fetch(requestToUrl,{
+      method: "POST",
+      headers:{
+        "Authorization":`key ${KHALTI_PUBLIC_KEY}`,
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(data),
+    }).then((d)=>{
+      
+      return d.json();
+    }).then(res=>{
+      window.open(res.payment_url, '_blank')
+    });
+
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkoutForm = document.querySelector("#checkoutForm");
+    const url = new URL(document.location);
+    const queryParams = url.searchParams;
+    if (queryParams.get("transaction_id")){ 
+      document.getElementById("KHALTI_TRANSACTION_CODE").value = queryParams.get("transaction_id");
+      checkoutForm.submit();
+    }
+    checkoutForm.addEventListener("submit", handleFormSubmission);
+    
+
+  });
+</script>
+{%endblock%}
