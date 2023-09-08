@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
-from django.contrib.sites.models import Site
 from uuid import uuid1
 from base64 import urlsafe_b64encode
 

@@ -64,7 +64,7 @@ body {
 header {
   width: 100vw;
   display: block;
-  position: fixed;
+  position: relative;
   z-index: 3;
   padding: 0 0.5cm;
   background-color: var(--nav-color);
@@ -393,11 +393,21 @@ footer ul li a:hover {
   left: 2cm;
 }
 
-@media only screen and (max-width: 916px) {
+section {
+  width: 60vw;
+  padding: 0;
+  margin: auto;
+}
+
+@media only screen and (max-width: 1100px) {
   header .filter-form input {
     width: 70vw !important;
     height: 1cm;
     margin: 0;
+  }
+
+  section {
+    width: 80vw;
   }
 
   #bars-prof {
@@ -565,6 +575,11 @@ footer ul li a:hover {
   header span {
     margin: 0 -5px 0 0;
   }
+
+  section {
+    width: 90vw;
+  }
+
   .profile-sidebar.open > div {
     min-width: 100%;
     width: 100%;
@@ -576,11 +591,19 @@ footer ul li a:hover {
     min-width: 100%;
     width: 100%;
   }
+
+  section {
+    width: 100vw;
+  }
 }
 @media only screen and (max-width: 333px) {
   #logo {
     max-width: 1cm;
     visibility: hidden;
+  }
+
+  section {
+    width: 100vw;
   }
 
   #logo::before {

@@ -20,5 +20,7 @@ from . import views
 
 urlpatterns = [
     path("", views.Home.as_view(), name="home"),
+    path("catalog/", views.Catalog.as_view(), name="catalog"),
     path("item/<slug:code>/", views.ItemDetailView.as_view(), name="detail"),
+    path("search/", views.Search.as_view(), name="search url"),
 ]

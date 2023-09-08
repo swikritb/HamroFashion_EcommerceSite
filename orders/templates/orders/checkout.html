@@ -37,20 +37,28 @@
                               class="float-l"
                             />
                             <div class="mx-2">
-                              <h6 style="text-decoration: none; color:black">{{item.item.name}}</h6>
+                              <h6 
+                                  style="text-decoration: none; color:black" 
+                                  data-item_total_price="{{item.price}}"
+                                  data-item_unit_price="{{item.item.real_time_price}}"
+                                  data-item_id="{{item.id}}"
+                                  data-item_quantity="{{item.quantity}}"
+                                  class="item__name">
+                                  {{item.item.name}}
+                              </h6>
                             </a>
-                            NRS {{item.item.price}} /- <br />
+                            NRS {{item.item.real_time_price}} /- <br />
                             {%if item.detail%}
                               {{item.detail}} <br />
                             {%endif%}
-                            Qty: <span class="mx-2 quantity" id="quantity-{{item.id}}">{{item.quantity}}</span>
+                            Qty: <span class="mx-2 quantity" data-item__name="{{item.item.name}}" class="item__qty" id="quantity-{{item.id}}">{{item.quantity}}</span>
                             </div>
                         </div>
                     </td>
                     <td>
                         <p class="text-right">
                         <br>
-                        NRS <span class="pricing">{{item.price}}</span>
+                        NRS <span class="pricing item__price__info">{{item.price}}</span>
                         </p>
                         </td>
                 </tr>
@@ -111,6 +119,8 @@
     }
     
 </style>
+
+
 <script accesskey="khaltiBlockCode">
   
   // data will be passed by django template
@@ -118,35 +128,50 @@
   const totalPrice = Number(`{{total_price}}`);
   const requestToUrl = new URL("https://a.khalti.com/api/v2/epayment/initiate/");
   const currentUrl = new URL(document.location.href);
+  
+  
+
 
   function handleFormSubmission(e){
-    
     e.preventDefault();
     const phoneNumber = document.querySelector(`input[name='phone_no']`).value;
     const address = document.querySelector(`input[name='address']`).value;
     const email = document.querySelector(`input[name='email']`).value;
     initiateKhaltiPayment(totalPrice);
-  
   }
   
+  function getCartItemsBreakdown(){
+    const item_names = Array.from(document.getElementsByClassName("item__name"));
+    return item_names.map((item_name)=>({
+      identity: item_name.dataset.item_id,
+      name: item_name.innerText,
+      quantity: parseInt(item_name.dataset.item_quantity),
+      total_price: parseInt(item_name.dataset.item_total_price) * 100,
+      unit_price: parseInt(item_name.dataset.item_unit_price) * 100,
+    }))
+  } 
+
 
 
   function initiateKhaltiPayment(amount){
+    
     Number = document.querySelector(`input[name='phone_no']`).value;
     const address = document.querySelector(`input[name='address']`).value;
     const email = document.querySelector(`input[name='email']`).value;
+    
 
     const data = {
       return_url: `${document.location.href}`,
       website_url: currentUrl.href,
       purchase_order_id: `ORDER-FOR-{{request.user.id}}`,
       purchase_order_name: `ORDER-FOR-{{request.user.email}}`,
-      amount: amount*100,
+      amount: amount * 10,
+      product_details: getCartItemsBreakdown(),
       modes: ["KHALTI"],
       purchase_order_name: "test",
       customer_info: {
         name: `{{request.user.email}}`,
-        email: "test@khalti.com",
+        email: "{{request.user.email}}",
         phone: "9800000003"
       }
     };

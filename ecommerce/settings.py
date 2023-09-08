@@ -32,10 +32,11 @@ INSTALLED_APPS = [
     "django_filters",
     "crispy_forms",
     "crispy_bootstrap4",
-    # rest-framework
-    "rest_framework",
-    "django.contrib.sites",
+    "ckeditor"
+    
 ]
+
+
 
 
 MIDDLEWARE = [
@@ -122,6 +123,8 @@ USE_TZ = False
 
 CRISPY_FAIL_SILENTLY = True
 
+CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
+
 
 # urls
 STATIC_URL = "/static/"
@@ -147,3 +150,14 @@ DATABASES = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_RESTRICT_BY_USER = True
+CKEDITOR_IMAGE_FILE_OVERWRITE = False
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_FILENAME_GENERATOR = "core.utils.get_filename"
+AWS_QUERYSTRING_AUTH = False
+CKEDITOR_UPLOAD_IMAGE_FORMATS = ["jpg", "jpeg", "png", "gif"]

@@ -5,7 +5,7 @@
     {%for item in items.object_list%}
       <div class="item" style="box-shadow: 4px 4px 20px rgba(0,0,0,0.2);">
       <a href="{{item.get_absolute_url}}" title="Click to see more on {{item.name}}">
-        <img src="{{item.pictures.first.image.url}}" loading="lazy" style="display: block;" class="item-image">
+        <img src="{{item.pictures.first.image.url}}" class="item-image">
       
       <div class="text">
         <p class="title">
@@ -13,8 +13,6 @@
         </p>
         <p class="price">
           {%if item.discount%}
-            
-            
             <span style="text-decoration: line-through; color:red ;font-size:10px">
               NRS {{item.price}}
             </span>

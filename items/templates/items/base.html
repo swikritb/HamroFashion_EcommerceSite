@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="referrer" content="no-referrer-when-downgrade">
     
     <title>
       {%firstof title "Hamro Fashion" %}
@@ -29,7 +29,7 @@
       integrity="sha512-++GOw3P+CoKtOL9WLD69ivVM+szM4IDAB9lxgsnR+t1epc5bu3+ghkXyaYMp9ctqjPvG7niSTL3Hna5cVgOnUA=="
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="{%static 'items/css/base.css'%}?version=1.02" />
+    <link rel="stylesheet" href="{%static 'items/css/base.css'%}?version=1.05" />
     {%block style%} {%endblock%}
   </head>
   <body>
@@ -101,13 +101,13 @@
       </span>
       <div class="information">
         <hr />
-        <a href="tel:+97798xxxxxxx">
+        <a href="tel:+9779864121212">
           <i class="fa fa-phone" aria-hidden="true"></i>
-          +97798xxxxxxx</a
+          +9779864121212</a
         >
         <a href="mailto:mail@example.com">
           <i class="fa fa-envelope-open" aria-hidden="true"></i>
-          mail@example.com
+          mail@hamrofashion.com
         </a>
         <a href="#">
           <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -120,9 +120,48 @@
           <a style="display: inline-block;" href="/">
             <h1>Hamro Fashion</h1>
           </a>
-        </div>
-        <ul>
           
+        </div>
+        
+        <ul>
+          <form
+            method="GET"
+            id="search"
+            class="filter-form d-flex justify-content-center"
+            method="get"
+            action="{%url 'search url'%}"
+          >
+            <div>
+              <input
+                type="text"
+                name="name__icontains"
+                id="id_name__icontains"
+                placeholder="Search products by name"
+                class="ui-autocomplete-input"
+                autocomplete="off"
+              />
+              <button>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 17 18"
+                  class=""
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="#000" fill-rule="evenodd">
+                    <path
+                      class="_2BhAHa"
+                      d="m11.618 9.897l4.225 4.212c.092.092.101.232.02.313l-1.465 1.46c-.081.081-.221.072-.314-.02l-4.216-4.203"
+                    ></path>
+                    <path
+                      class="_2BhAHa"
+                      d="m6.486 10.901c-2.42 0-4.381-1.956-4.381-4.368 0-2.413 1.961-4.369 4.381-4.369 2.42 0 4.381 1.956 4.381 4.369 0 2.413-1.961 4.368-4.381 4.368m0-10.835c-3.582 0-6.486 2.895-6.486 6.467 0 3.572 2.904 6.467 6.486 6.467 3.582 0 6.486-2.895 6.486-6.467 0-3.572-2.904-6.467-6.486-6.467"
+                    ></path>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </form>
         </ul>
         <ul>
           
@@ -220,11 +259,7 @@
         </h5>
         
         {%csrf_token%}
-        <!---
         
-          AFDSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-        
-        -->
         
 
         <table id="cart" class="table text-white table-borderless">
@@ -241,9 +276,9 @@
       </div>
     </div>
     <br />
-    <div class="bg-light text-dark" style="margin:50px 0">
+    <section class="bg-light text-dark">
       {%block content%} {%endblock%}
-    </div>
+    </section>
     <br />
     <br />
     <br />
@@ -272,6 +307,7 @@
       
     </footer>
 
+    
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
       integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
@@ -294,11 +330,57 @@
     ></script>
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    
+    <script>  
+      var $j = jQuery.noConflict();
+
+      $j(function () {
+        $j("#id_name__icontains").autocomplete({
+          source: "{%url 'search url'%}",
+          select: function (event, ui) {
+            //item selected
+            AutoCompleteSelectHandler(event, ui);
+            console.log(ui);
+          },
+          minLength: 2,
+        });
+      });
+
+      function AutoCompleteSelectHandler(event, ui) {
+        var selectedObj = ui.item;
+        console.log(ui);
+        var surl = new URL(document.getElementById("search").action);
+        surl.search = `?name__icontains=${ui.item.label}`
+        window.location = surl; 
+      }
+
+      const curl = "{%url 'cart'%}";
+      
+      window.onload = fillnav("{{request.user}}");
+  </script>
+
+    <script>
+      document.getElementById("id_name__icontains").placeholder =
+        "Search products by name";
+
+    </script>
 
     {%block script%} {%endblock%}
     
     
+    <script type="text/javascript">
+      var Tawk_API = Tawk_API || {},
+        Tawk_LoadStart = new Date();
+      (function () {
+        var s1 = document.createElement("script"),
+          s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = "https://embed.tawk.to/5f4a19e0cc6a6a5947afe4c3/default";
+        s1.charset = "UTF-8";
+        s1.setAttribute("crossorigin", "*");
+        s0.parentNode.insertBefore(s1, s0);
+      })();
+    </script>
+
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>

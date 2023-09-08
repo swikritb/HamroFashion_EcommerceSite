@@ -71,6 +71,8 @@ class CheckOutView(LoginRequiredMixin, View):
                 request, messages.ERROR, "Invalid khalti transaction code"
             )
 
+        
+
         checkout_form = forms.CheckOutForm(request.POST)
         if checkout_form.is_valid():
             """
@@ -78,6 +80,9 @@ class CheckOutView(LoginRequiredMixin, View):
             cart object is same as that of request.user
             pop out the cart items and
             """
+            messages.add_message(
+                request, messages.ERROR, "Order received, thankyou"
+            )
             cart = request.user.cart
             checkout_form_data = checkout_form.save(commit=False)
 

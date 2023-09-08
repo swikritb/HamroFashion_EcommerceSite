@@ -25,6 +25,11 @@ body {
   text-align: center;
 }
 
+h4 {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
 @keyframes show {
   to {
     opacity: 0;
@@ -69,12 +74,13 @@ body {
   text-decoration: none;
   color: black;
 }
+
 .hidden-filter ul li a:hover {
   color: var(--highlight-color);
 }
 
 .item-holder {
-  margin: 1cm 5%;
+  margin: 1cm 0;
 }
 
 .right {
@@ -104,11 +110,14 @@ body {
   margin: 0.3cm;
 }
 
-.item-container .item .item-image {
-  width: 160px;
+.item-container .item .item-image,
+.item-image,
+#item-image {
   height: 200px;
   background-color: rgb(228, 228, 228);
   border-radius: 10px 10px 0 0;
+  width: auto;
+  object-fit: cover;
 }
 
 .item-container .item .text {
