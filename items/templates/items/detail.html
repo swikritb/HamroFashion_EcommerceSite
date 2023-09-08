@@ -28,14 +28,16 @@
     </div>
     <div class="col-lg-1 col-md-1"></div>
     <div class="col-lg-4 col-md-5 col-12">
-      <h4 class="display-4">{{object.name}}</h4>
-      <div style="display: inline-block;">
-        
-      </div>
-      <br><hr>
-      <p class="desp">{{object.desp}}</p>
+      
+      <div style="display: inline-block;"></div>
+      <br>
+      
+      <h4 class="display-4" style="color:black;">
+        {{object.name}}
+      </h4>
+      <hr>
       {%if object.discount%}
-          <h4 class="display-4" style="color:black;">
+          <h4 class="display-5" style="color:black;">
             NRS {{object.real_time_price}} /- 
           </h4>
           <span style="color:white;padding:5px; border-radius:4px; background-color:rgb(255, 0, 0);font-size:15px">
@@ -81,20 +83,18 @@
     <div class="col-lg-1 col-md-1"></div>
   </div>
 </div>
-  
+
   <div class="row justify-content-center">
     <div class="col-lg-8 col-10 justify-content-center my-3 py-3">
       <hr>
-    
-      <div class="d-flex justify-content-around">
-        <b>
-          Category : {{object.category.name}}
-        </b>
-        <b>
-          Status : {{object.status}}
-        </b>    
+      
+      <div class="container d-flex justify-content-around">
+        <div class="">
+          {{object.description | safe}}
+        
+        </div>
       </div>
-      <hr>
+      
       
     </div>
   </div>

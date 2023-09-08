@@ -3,10 +3,11 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from collections import Counter
+from ckeditor.fields import RichTextField
 
 from django.template.defaultfilters import slugify
 
-import PIL
+from PIL import Image
 
 from django.conf import settings
 
@@ -24,6 +25,18 @@ def validated_discount(value):
     if value > 0.8:
         raise ValidationError("Discount can only be up to 80% or 0.8")
 
+class WebsiteSection(models.Model):
+    section_title = models.CharField(max_length=40, unique=True, blank=False, null=False)
+    section_description = RichTextField(blank=True, null=True)
+    items = models.ManyToManyField("items.Item")
+
+    class Meta:
+        verbose_name_plural = "Website Sections"
+        ordering = ["-id"]
+
+    def __str__(self) -> str:
+        return self.section_title
+    
 
 class Photo(models.Model):
     image = models.ImageField(
@@ -35,15 +48,15 @@ class Photo(models.Model):
 
     def save(self):
         super().save()
-        image = PIL.Image.open(self.image.path)
-        image = image.resize((500, 500), PIL.Image.ANTIALIAS)
+        image = Image.open(self.image.path)
+        image = image.resize((500, 500), Image.ADAPTIVE)
         image.save(self.image.path)
 
 
 class Item(models.Model):
     name = models.CharField(max_length=20, unique=True, blank=False, null=False)
     price = models.IntegerField(verbose_name="Pricing in NRS", blank=False, null=False)
-    description = models.TextField(blank=False, null=False, db_column="desp")
+    description = RichTextField(blank=False, null=False, db_column="desp")
     date_added = models.DateField(auto_now=True, db_column="dateadded")
     pictures = models.ManyToManyField(Photo)
     code = models.SlugField(max_length=50, null=True, blank=True)
@@ -59,6 +72,7 @@ class Item(models.Model):
         ("instock", "instock"),
         ("out of stock", "out of stock"),
     )
+
     status = models.CharField(
         choices=status, max_length=len("out of stock"), default="instock"
     )
@@ -82,7 +96,6 @@ class Item(models.Model):
 
     def save(self, *args, **kwargs):
         self.code = slugify(self.name)
-        self.real_time_price = int(self.price - (self.price * self.discount))
         return super().save()
 
 

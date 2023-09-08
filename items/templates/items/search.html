@@ -1,0 +1,61 @@
+{%extends "items/base.html"%} {%load make_range%} {%load static%}{#something#}
+{%block content%}
+<div class="row justify-content-center" style="padding-top: 3cm">
+  <div class="item-container col-9 col-md-8">
+    {%include 'items/itemview.html'%}
+  </div>
+  {%csrf_token%}
+</div>
+{%endblock%} {%block style%}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{%static 'items/css/search.css'%}?version=1"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{%static 'items/css/index.css'%}?version=1"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{%static 'items/css/slide.css'%}?version=1"
+/>
+
+{%endblock%} {%block script%}
+
+<script>
+  csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+  searchurl = "{%url 'search url'%}";
+
+  $(function () {
+    $("#id_name__icontains").autocomplete({
+      source: "{%url 'search url'%}",
+      select: function (event, ui) {
+        //item selected
+        autoCompleteSelectHandler(event, ui);
+      },
+      minLength: 2,
+    });
+  });
+
+  function autoCompleteSelectHandler(event, ui) {
+    var selectedObj = ui.item;
+    var surl = new URL(document.getElementById("search").action);
+    surl.search = `?name__icontains=${ui.item.label}`;
+    window.location = surl;
+    console.log(surl);
+  }
+</script>
+
+<!-- jQuery !-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<!-- jQuery UI !-->
+<link
+  rel="stylesheet"
+  href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+{%endblock%}

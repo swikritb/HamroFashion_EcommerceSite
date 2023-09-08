@@ -13,6 +13,5 @@ class ItemFilter(django_filters.FilterSet):
         model = models.Item
         fields = {
             "name": ["icontains"],
-            "realtimeprice": ["gt", "lt"],
-            "addinfo__value": ["icontains"],
+            "price": ["gt", "lt"]
         }

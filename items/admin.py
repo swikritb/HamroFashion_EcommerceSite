@@ -9,6 +9,7 @@ admin.site.register(
     [
         models.Photo,
         models.SlideImages,
+        models.WebsiteSection
     ]
 )
 
